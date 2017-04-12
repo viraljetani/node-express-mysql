@@ -37,12 +37,22 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', index);
 app.use('/users', users);
+//app.use('/users/', users);
+
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
-  var err = new Error('Not Found');
-  err.status = 404;
-  next(err);
+
+if(req.url.substr(-1) == '/' && req.url.length > 1)
+       res.redirect(301, req.url.slice(0, -1));
+   else {
+      var err = new Error('Not Found');
+      err.status = 404;
+      next(err);
+
+    }
+
+
 });
 
 // error handler
