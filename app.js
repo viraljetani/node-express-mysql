@@ -20,6 +20,15 @@ global.dbConnection = mysql.createConnection({
 
 });
 
+//Pooling
+global.pool  = mysql.createPool({
+  connectionLimit : 10,
+  host            : 'localhost',
+  user            : 'root',
+  password        : '',
+  database        : 'nodemysql'
+});
+
 
 var app = express();
 
@@ -44,7 +53,7 @@ app.use('/users', users);
 app.use(function(req, res, next) {
 
 if(req.url.substr(-1) == '/' && req.url.length > 1)
-       res.redirect(301, req.url.slice(0, -1));
+      { res.redirect(301, req.url.slice(0, -1));}
    else {
       var err = new Error('Not Found');
       err.status = 404;
